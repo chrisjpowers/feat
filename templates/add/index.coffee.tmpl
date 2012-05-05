@@ -1,0 +1,12 @@
+feat = require "feat"
+express = require "express"
+exports.server = server = express.createServer()
+
+server.configure ->
+  server.set "views",  "#{__dirname}/views"
+  server.use express.static("#{__dirname}/public")
+
+feat.on "$name:on", ->
+
+feat.on "$name:off", ->
+

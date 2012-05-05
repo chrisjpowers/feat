@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+require("coffee-script");
+
+var feat,
+    path = require("path"),
+    fs = require("fs"),
+    command = process.argv[2] || "help",
+    options = process.argv.slice(3, process.argv.length),
+    localPath = process.cwd() + "/node_modules/feat";
+
+if(path.existsSync(localPath)) {
+  feat = require(localPath);
+} else {
+  feat = require(fs.realpathSync(__dirname) + "/../lib/feat");
+}
+
+feat.runCommand(command, options);
