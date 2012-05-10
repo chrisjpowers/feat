@@ -90,7 +90,7 @@ exports.test = (feature = null) ->
   _  = require "underscore"
 
   port = process.env.PORT || 8228
-  process.env.ENV = 'test'
+  process.env.NODE_ENV = 'test'
   testServer = null
 
   if feature
@@ -118,7 +118,7 @@ exports.test = (feature = null) ->
     .concat(glob.sync("#{dir}/test/*test.coffee"))
     .concat(glob.sync("#{dir}/test/*test.js"))
   
-  requires = ["coffee-script", "should"]
+  requires = ["coffee-script"]
   requireStr = _.map(requires, (r) -> "-r #{r}").join " "
 
   cmd = "mocha #{requireStr} -u bdd --compilers coffee:coffee-script --ignore-leaks".split(" ").concat(files)
