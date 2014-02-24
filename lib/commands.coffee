@@ -14,7 +14,6 @@ exports.help = ->
 exports.add = (name) ->
   coffee = require "coffee-script"
   fs = require "fs"
-  pathLib = require "path"
   mkdirp = require "../lib/mkdirp"
   dir = "#{process.cwd()}/features/#{name}"
   mkdirp.sync "#{dir}/public"
@@ -22,7 +21,7 @@ exports.add = (name) ->
   mkdirp.sync "#{dir}/spec"
 
   packPath = "#{process.cwd()}/package.json"
-  if pathLib.existsSync packPath
+  if fs.existsSync packPath
     pack = require packPath
     useCoffee = pack.dependencies["coffee-script"]?
   else
@@ -46,12 +45,11 @@ exports.disable = (feature) ->
   updateStatus feature, false
 
 updateStatus = (feature, status) ->
-  pathLib = require "path"
   fs = require "fs"
   features = {}
 
-  configPath = "#{process.cwd()}/features.json"
-  if pathLib.existsSync(configPath)
+  configPath = "#{process.cwd()}/.features.json"
+  if fs.existsSync(configPath)
     features = JSON.parse fs.readFileSync(configPath)
 
   features[feature] = status
@@ -84,7 +82,7 @@ exports.start = (feature = null) ->
       console.log "Unable to run `npm start` -- please add a `scripts.start` command to package.json"
 
 exports.test = (feature = null) ->
-  pathLib = require "path"
+  fs = require "fs"
   spawn = require("child_process").spawn
   glob = require "glob"
   _  = require "underscore"
@@ -117,7 +115,7 @@ exports.test = (feature = null) ->
     .concat(glob.sync("#{dir}/spec/*spec.js"))
     .concat(glob.sync("#{dir}/test/*test.coffee"))
     .concat(glob.sync("#{dir}/test/*test.js"))
-  
+
   requires = ["coffee-script"]
   requireStr = _.map(requires, (r) -> "-r #{r}").join " "
 

@@ -9,14 +9,10 @@
   },
   "dependencies": {
     "coffee-script": "*",
-    "express": "> 2.0.0",
+    "express": "~3",
     "underscore": "*",
-    "glob": "*",
-    "mocha": "*"
+    "glob": "*"
   },
-  "devDependencies": {},
-  "optionalDependencies": {},
-  "engines": {
-    "node": "*"
+  "devDependencies": {
   }
 }

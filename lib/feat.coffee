@@ -5,7 +5,7 @@ express = require "express"
 EventEmitter = require("events").EventEmitter
 commands = require "./commands"
 
-middleware = express.createServer()
+middleware = express()
 
 features = {}
 config = dir = null
@@ -34,7 +34,7 @@ feat.gui = require "./plugins/gui"
 
 feat.middleware = (opts = {}) ->
   dir = opts.dir || "#{process.cwd()}/features"
-  config = opts.config || "#{process.cwd()}/features.json"
+  config = opts.config || "#{process.cwd()}/.features.json"
 
   fs.readFile config, (err, data) ->
     unless err
@@ -45,6 +45,7 @@ feat.middleware = (opts = {}) ->
       do ->
         name = n
         features[name] ?= false
+        console.log "Loading", name
         mod = require "#{dir}/#{name}"
         if mod.server
           middleware.use (req, res, next) ->

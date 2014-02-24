@@ -1,17 +1,10 @@
 express = require "express"
 
 module.exports = ->
-  feat = require "feat"
-  app = express.createServer()
+  feat = require "../../.."
+  app = express()
   app.use express.bodyParser()
-  app.use "/features/gui", express.static("#{__dirname}/client")
-
-  app.configure ->
-    app.set 'views',  "#{__dirname}/views"
-    app.set 'view engine', 'jade'
-
-  app.get "/features", (req, res) ->
-    res.render "index.jade", layout: false
+  app.use "/features", express.static("#{__dirname}/client")
 
   app.get "/features.json", (req, res) ->
     res.send feat.features()

@@ -1,6 +1,6 @@
 feat = require "feat"
 express = require "express"
-exports.server = server = express.createServer()
+exports.server = server = express()
 
 server.configure ->
   server.set "views",  "#{__dirname}/views"
