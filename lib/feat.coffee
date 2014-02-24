@@ -67,3 +67,6 @@ feat.features = (newFeatures) ->
   if newFeatures
     updateFeatures newFeatures
   features
+
+feat.isEnabled = (name) ->
+  !!features[name]

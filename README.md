@@ -3,7 +3,7 @@
 Successfully organizing your source code as your app grows can be quite a *feat*.
 That's why I wrote **Feat**.
 
-Feat is a tool for modularly organizing your Node.js code by feature rathan than taxonomy. 
+Feat is a tool for modularly organizing your Node.js code by feature rathan than taxonomy.
 Rails-style `model`, `controller`, `view`, etc. directories bloat uncontrollably
 over time, so Feat puts all the code that pertains to a given feature in its
 own directory. Every file that has to do with the given feature is colocated,
@@ -92,13 +92,27 @@ feat enable first-feature
 
 *NOTE: Features can be enabled and disabled "hot" without restarting your server!*
 
+### Feature State
+
+You can easily determine the state of a feature by using `feat.isEnabled()`:
+
+```javascript
+server.get("/second-page", function(req, res) {
+  var out = "<h1>Second Page</h2>";
+  if (feat.isEnabled("hello-world")) {
+    out = out + "<p><a href='/hello'>Go to Hello World</a></p>";
+  }
+  res.send(out);
+});
+```
+
 ### Feature Events
 
 While it should be a goal to keep features as detached from one another as
 possible, clearly there will points of interaction that will have to be
 setup when a feature is turned on and torn down when a feature is turned off.
 It is a good practice to have features offer services to other features to
-isolate and control the interactions. 
+isolate and control the interactions.
 
 For example, let's say that we have a
 `navigation` feature that manages the links in our site's nav. If our
