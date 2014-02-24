@@ -6,10 +6,10 @@ module.exports = ->
   app.use express.bodyParser()
   app.use "/features", express.static("#{__dirname}/client")
 
-  app.get "/features.json", (req, res) ->
+  app.get "/features/features.json", (req, res) ->
     res.send feat.features()
 
-  app.post "/features.json", (req, res) ->
+  app.post "/features/features.json", (req, res) ->
     res.send feat.features(req.body)
 
   app

@@ -16,7 +16,7 @@ $ ->
     newVal = !li.data("feature-enabled")
     payload = {}
     payload[name] = newVal
-    $.post "/features.json", payload, updateDisplay
+    $.post "features.json", payload, updateDisplay
 
-  $.getJSON "/features.json", updateDisplay
+  $.getJSON "features.json", updateDisplay
 
