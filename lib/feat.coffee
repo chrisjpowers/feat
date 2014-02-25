@@ -6,11 +6,11 @@ EventEmitter = require("events").EventEmitter
 
 middleware = express()
 
-features = {}
 config = dir = null
 module.exports = feat = new EventEmitter
 
 updateFeatures = (newFeatures) ->
+  features = persistence.get()
   changed = false
   for name, active of newFeatures
     if active == "true" then active = true
@@ -20,46 +20,38 @@ updateFeatures = (newFeatures) ->
       msg = "#{name}:#{if active then 'on' else 'off'}"
       feat.emit msg
     features[name] = active
-  fs.writeFile config, JSON.stringify(features) if changed
+  persistence.set features if changed
+  features
 
 feat.commands = require "./plugins/commands"
 feat.gui = require "./plugins/gui"
+feat.persistence = persistence = require("./plugins/persistence")()
 
 feat.middleware = (opts = {}) ->
   dir = opts.dir || "#{process.cwd()}/features"
-  config = opts.config || "#{process.cwd()}/.features.json"
-
-  fs.readFile config, (err, data) ->
-    unless err
-      updateFeatures JSON.parse(data)
 
   fs.readdir dir, (err, files) ->
+    features = persistence.get()
     for n in files
       do ->
         name = n
         features[name] ?= false
-        console.log "Loading", name
         mod = require "#{dir}/#{name}"
         if mod.server
           middleware.use (req, res, next) ->
-            if features[name]
+            if persistence.get()[name]
               mod.server.handle(req, res, next)
             else
               next()
-
-  # This sucks, we need to figure out how to use fs.watch
-  fs.watchFile config, (curr, prev) ->
-    if "#{curr.mtime}" != "#{prev.mtime}"
-      fs.readFile config, (err, data) ->
-        newFeatures = JSON.parse data
-        updateFeatures newFeatures
+    updateFeatures features
 
   middleware
 
 feat.features = (newFeatures) ->
   if newFeatures
     updateFeatures newFeatures
-  features
+  else
+    persistence.get()
 
 feat.isEnabled = (name) ->
-  !!features[name]
+  !!persistence.get()[name]

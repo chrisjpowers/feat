@@ -148,6 +148,24 @@ Assuming that the `navigation` feature exported the `add` and `remove`
 functions, we would be able to use them in this way to ensure our nav
 is only present when this feature is turned on.
 
+### Persisting Features
+
+By default, `feat` uses in-memory persistence, which is only useful in
+development. Persistence options are being developed, and a file persistence
+is currently available. To switch over to using file-based persistence,
+configure `feat` using:
+
+```javascript
+feat.persistence.use("file");
+```
+
+By default, `feat` will add a `.features.json` file to your project. To override
+this, pass a filepath as the second argument.
+
+```javascript
+feat.persistence.use("file", "tmp/my-features.json");
+```
+
 ### Running an Isolated Feature Server
 
 As an app grows in size, it can be useful in development to run a server
