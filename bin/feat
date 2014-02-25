@@ -7,10 +7,10 @@ var feat,
     options = process.argv.slice(3, process.argv.length),
     localPath = process.cwd() + "/node_modules/feat";
 
-if(fs.existsSync(localPath)) {
+if (fs.existsSync(localPath)) {
   feat = require(localPath);
 } else {
   feat = require(fs.realpathSync(__dirname) + "/../lib/feat");
 }
 
-feat.runCommand(command, options);
+feat.commands.run(command, options);

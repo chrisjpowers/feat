@@ -3,20 +3,12 @@ fs = require "fs"
 pathLib = require "path"
 express = require "express"
 EventEmitter = require("events").EventEmitter
-commands = require "./commands"
 
 middleware = express()
 
 features = {}
 config = dir = null
 module.exports = feat = new EventEmitter
-
-feat.runCommand = (name, args=[]) ->
-  if command = commands[name]
-    command.apply this, args
-  else
-    console.log "Sorry, the '#{name}' command is not valid."
-    command.help()
 
 updateFeatures = (newFeatures) ->
   changed = false
@@ -30,6 +22,7 @@ updateFeatures = (newFeatures) ->
     features[name] = active
   fs.writeFile config, JSON.stringify(features) if changed
 
+feat.commands = require "./plugins/commands"
 feat.gui = require "./plugins/gui"
 
 feat.middleware = (opts = {}) ->
