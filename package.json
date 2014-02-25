@@ -2,7 +2,7 @@
   "author": "Chris Powers <chrisjpowers@gmail.com> (http://chrisjpowers.com)",
   "name": "feat",
   "description": "A framework for organizing and loading code by feature with built-in rollout support.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "index.js",
   "bin": {
     "feat": "bin/feat"
@@ -13,6 +13,5 @@
     "underscore": "*",
     "glob": "*"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
